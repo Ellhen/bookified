@@ -10,11 +10,11 @@ export const getAllBooks = async () => {
 	try {
 		await connectToDatabase()
 
-		const books = await Book.find().sort({ createdAt: -1 }).lean()
+		const books = await Book.find().sort({createdAt: -1}).lean()
 
 		return {
 			success: true,
-			books: serializeData(books)
+			data: serializeData(books)
 		}
 	} catch (e) {
 		console.error('Error connecting to database')
@@ -35,7 +35,7 @@ export const checkBookExists = async (title: string) => {
 
 		if (existingBook) {
 			return {
-				success: true,
+				exist: true,
 				book: serializeData(existingBook)
 			}
 		}
@@ -47,7 +47,7 @@ export const checkBookExists = async (title: string) => {
 	} catch (e) {
 		console.error('Error checking if book exists', e)
 		return {
-			success: false,
+			exist: false,
 			error: e
 		}
 	}
